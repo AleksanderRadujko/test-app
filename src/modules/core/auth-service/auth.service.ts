@@ -5,9 +5,11 @@ import { CookieService } from "ngx-cookie-service";
 import { Token } from "./token";
 import { catchError, throwError } from "rxjs";
 
+import { environment } from "../../../environment";
+
 @Injectable({providedIn: 'root'})
 export class AuthService {
-    webApiKey = 'AIzaSyAtiylLcGFb68X_iCvYqN62SPGgdZj6S_I';
+    webApiKey = environment.apiKeyFirebase;
 
     private http = inject(HttpClient);
     private cookies = inject(CookieService);
