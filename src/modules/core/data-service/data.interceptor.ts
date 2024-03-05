@@ -1,5 +1,8 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { BehaviorSubject, Observable } from "rxjs";
+import { inject } from "@angular/core";
+
+import { AuthService } from "../auth-service/auth.service";
 
 const TOKEN_HEADER_KEY = 'Authorization';
 
@@ -21,11 +24,13 @@ export class DataInterceptor implements HttpInterceptor {
     private isRefreshing = false;
     private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
+    private authService = inject(AuthService);
+
     constructor() {}
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         let authReq = req;
-        const token: string | null = null;
+        const token: string | null = this.authService.getToken();
         if(token !== null) {
             authReq = this.addTokenHeader(req, token);
         }
